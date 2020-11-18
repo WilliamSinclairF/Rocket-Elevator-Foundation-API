@@ -26,6 +26,8 @@ namespace Rocket_REST_API.Models
         public virtual DbSet<Leads> Leads { get; set; }
         public virtual DbSet<Quotes> Quotes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Interventions> Interventions { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -794,6 +796,61 @@ namespace Rocket_REST_API.Models
 
                 entity.Property(e => e.Title)
                     .HasColumnName("title")
+                    .HasColumnType("varchar(255)")
+                    .HasCharSet("utf8")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnName("updated_at")
+                    .HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Interventions>(entity =>
+            {
+                entity.ToTable("interventions");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AuthorId).HasColumnName("author_id");
+
+                entity.Property(e => e.BatteryId).HasColumnName("battery_id");
+
+                entity.Property(e => e.BuildingId).HasColumnName("building_id");
+
+                entity.Property(e => e.ColumnId).HasColumnName("column_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+
+                entity.Property(e => e.ElevatorId).HasColumnName("elevator_id");
+
+                entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+
+                entity.Property(e => e.InterventionEndDateTime)
+                    .HasColumnName("intervention_end_date_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.InterventionStartDateTime)
+                    .HasColumnName("intervention_start_date_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Report)
+                    .HasColumnName("report")
+                    .HasColumnType("text")
+                    .HasCharSet("utf8")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.Result)
+                    .HasColumnName("result")
+                    .HasColumnType("varchar(255)")
+                    .HasCharSet("utf8")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
                     .HasColumnType("varchar(255)")
                     .HasCharSet("utf8")
                     .HasCollation("utf8_general_ci");

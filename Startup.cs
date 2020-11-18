@@ -34,7 +34,7 @@ namespace Rocket_REST_API
             services.AddCors();
 
             services.AddDbContext<App>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("Dev")));
             services.AddMvc();
         }
 
