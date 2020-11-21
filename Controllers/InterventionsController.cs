@@ -14,9 +14,9 @@ namespace Rocket_REST_API.Controllers
     [ApiController]
     public class InterventionsController : ControllerBase
     {
-        private const string pending = "0";
-        private const string inProgress = "1";
-        private const string resultComplete = "2";
+        private const string Pending = "Pending";
+        private const string InProgress = "InProgress";
+        private const string Complete = "Completed";
 
         private readonly App _context;
 
@@ -29,7 +29,7 @@ namespace Rocket_REST_API.Controllers
         [HttpGet ("pending")]
         public async Task<ActionResult<IEnumerable<Interventions>>> GetPendingInterventions()
         {
-            return await _context.Interventions.Where(e => e.Status == pending && e.InterventionStartDateTime == null).ToListAsync();
+            return await _context.Interventions.Where(e => e.Status == Pending && e.InterventionStartDateTime == null).ToListAsync();
         }
 
         // GET: api/Interventions
@@ -66,7 +66,7 @@ namespace Rocket_REST_API.Controllers
                 return NotFound();
             }
 
-            intervention.Status = inProgress;
+            intervention.Status = InProgress;
             intervention.InterventionStartDateTime = DateTime.Now;
 
             try
@@ -99,7 +99,7 @@ namespace Rocket_REST_API.Controllers
                 return NotFound();
             }
 
-            intervention.Status = resultComplete;
+            intervention.Status = Complete;
             intervention.InterventionEndDateTime = DateTime.Now;
 
             try
