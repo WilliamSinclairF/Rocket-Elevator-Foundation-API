@@ -32,7 +32,7 @@ namespace Rocket_REST_API
         {
 
             services.AddDbContext<App>(options =>
-                options.UseMySql(Configuration.GetConnectionString("Dev")));
+                options.UseMySql(Configuration.GetConnectionString("mysql")));
             services.AddMvc();
 
             services.AddCors(options =>

@@ -1,4 +1,4 @@
-﻿{
+{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
@@ -14,7 +14,9 @@
       "launchBrowser": true,
       "launchUrl": "api/Addresses",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://rocketrestapivault.vault.azure.net/",
+        "AZURE_USERNAME": "willzy@outlook.com"
       }
     },
     "Rocket_REST_API": {
@@ -23,7 +25,9 @@
       "launchUrl": "api/Addresses",
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VaultUri": "https://rocketrestapivault.vault.azure.net/",
+        "AZURE_USERNAME": "willzy@outlook.com"
       }
     }
   }
