@@ -26,7 +26,7 @@ namespace Rocket_REST_API.Controllers
         }
 
         // GET: api/Interventions/pending
-        [HttpGet ("pending")]
+        [HttpGet("pending")]
         public async Task<ActionResult<IEnumerable<Interventions>>> GetPendingInterventions()
         {
             return await _context.Interventions.Where(e => e.Status == Pending && e.InterventionStartDateTime == null).ToListAsync();
@@ -119,6 +119,39 @@ namespace Rocket_REST_API.Controllers
             }
 
             return Ok(id);
+        }
+
+
+        [HttpPost("portal_intervention")]
+        public async Task<ActionResult<CustomerPortalInterventionDTO>> CreateCustomerPortalInvervention(CustomerPortalInterventionDTO customerPortalInterventionsDTO)
+        {
+            var user = await _context.Users.Where(u => u.Email == customerPortalInterventionsDTO.CustomerEmail).FirstOrDefaultAsync();
+
+            var customer = await _context.Customers.Where(c => c.UserId == user.Id).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var intervention = new Interventions
+            {
+                CustomerId = (int)customer.Id,
+                AuthorId = (int)customer.Id,
+                BuildingId = customerPortalInterventionsDTO.BuildingId,
+                BatteryId = customerPortalInterventionsDTO.BatteryId,
+                ColumnId = customerPortalInterventionsDTO.ColumnId,
+                ElevatorId = customerPortalInterventionsDTO.ElevatorId,
+                Report = customerPortalInterventionsDTO.Report,
+                CreatedAt = DateTime.UtcNow,
+                EmployeeId = 1377,
+                Status = "Pending"
+            };
+
+            _context.Interventions.Add(intervention);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetInterventions", new { id = intervention.Id }, intervention);
         }
 
         // PUT: api/Interventions/5

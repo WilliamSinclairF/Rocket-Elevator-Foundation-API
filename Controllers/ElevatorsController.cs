@@ -69,6 +69,19 @@ namespace Rocket_REST_API.Controllers
             return elevator;
         }
 
+        [HttpGet("column_id/{id}")]
+        public async Task<ActionResult<List<Elevators>>> GetElevatorsByColumnId(long id)
+        {
+            var elevators = await _context.Elevators.Where(e => e.ColumnId == id).ToListAsync();
+
+            if (elevators == null)
+            {
+                return NotFound();
+            }
+
+            return elevators;
+        }
+
         // Change the status of an elevator
         // PUT: api/Elevators/status/5
         // request body in json must include "Id" and "ElevatorStatus"

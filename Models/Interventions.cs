@@ -29,4 +29,17 @@ namespace Rocket_REST_API
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
     }
+
+    public class CustomerPortalInterventionDTO
+    {
+        public string CustomerEmail { get; set; }
+        public long Id { get; set; }
+        public int BuildingId { get; set; }
+        public int? BatteryId { get; set; }
+        public int? ColumnId { get; set; }
+        public int? ElevatorId { get; set; }
+        public string? Report { get; set; }
+
+
+    }
 }

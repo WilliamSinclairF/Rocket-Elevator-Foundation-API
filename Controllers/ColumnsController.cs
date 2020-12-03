@@ -61,6 +61,19 @@ namespace Rocket_REST_API.Controllers
             return column;
         }
 
+        [HttpGet("battery_id/{id}")]
+        public async Task<ActionResult<List<Columns>>> GetColumnsByBatteryId(long id)
+        {
+            var columns = await _context.Columns.Where(c => c.BatteryId == id).ToListAsync();
+
+            if (columns == null)
+            {
+                return NotFound();
+            }
+
+            return columns;
+        }
+
         // Change the status of a column
         // PUT: api/Columns/status/5
         // request body in json must include "Id" and "ColumnStatus"
@@ -160,6 +173,9 @@ namespace Rocket_REST_API.Controllers
 
             return columns;
         }
+
+
+
 
         private bool ColumnsExists(long id)
         {

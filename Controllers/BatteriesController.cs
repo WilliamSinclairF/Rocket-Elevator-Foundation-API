@@ -41,6 +41,19 @@ namespace Rocket_REST_API.Controllers
             return batteries;
         }
 
+        [HttpGet("building_id/{id}")]
+        public async Task<ActionResult<List<Batteries>>> GetBatteriesByBuildingId(long id)
+        {
+            var batteries = await _context.Batteries.Where(b => b.BuildingId == id).ToListAsync();
+
+            if (batteries == null)
+            {
+                return NotFound();
+            }
+
+            return batteries;
+        }
+
 
         // Get the status of a battery
         [HttpGet("status/{id}")]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,8 @@ namespace Rocket_REST_API.Controllers
             foreach (BuildingDTO b in buildings.ToList())
             {
                 var countTo3 = 0;
-                if (!b.Batteries.Any()) {
+                if (!b.Batteries.Any())
+                {
                     countTo3++;
                 }
                 if (!b.Columns.Any())
@@ -143,6 +145,27 @@ namespace Rocket_REST_API.Controllers
 
             _context.Buildings.Remove(buildings);
             await _context.SaveChangesAsync();
+
+            return buildings;
+        }
+
+        // GET: api/Buildings/5
+        [HttpGet("find_by_email/{email}")]
+        public async Task<ActionResult<List<BuildingWithAddressDTO>>> FindBuildingsByUserEmail(string email)
+        {
+            var decodedEmail = HttpUtility.UrlDecode(email);
+            var user = await _context.Users.Where(u => u.Email == decodedEmail).FirstOrDefaultAsync();
+            var customer = await _context.Customers.Where(c => c.UserId == user.Id).FirstOrDefaultAsync();
+            var buildings = await (from building in _context.Buildings
+                                   where building.CustomerId == customer.Id
+                                   join address in _context.Addresses on building.AddressId equals address.Id
+                                   select new BuildingWithAddressDTO { BuildingId = building.Id, Address = address })
+                             .ToListAsync();
+
+            if (buildings == null)
+            {
+                return NotFound();
+            }
 
             return buildings;
         }

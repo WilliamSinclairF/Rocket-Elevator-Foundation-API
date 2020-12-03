@@ -31,11 +31,19 @@ namespace Rocket_REST_API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors();
-
             services.AddDbContext<App>(options =>
                 options.UseMySql(Configuration.GetConnectionString("Dev")));
             services.AddMvc();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +57,8 @@ namespace Rocket_REST_API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 

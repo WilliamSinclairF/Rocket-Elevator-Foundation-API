@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,6 +41,22 @@ namespace Rocket_REST_API.Controllers
 
             return users;
         }
+
+        // GET: api/Users/email/admin%40admin.com
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult> CheckIfUserExistsByEmail(string email)
+        {
+            var decodedEmail = HttpUtility.UrlDecode(email);
+            var user = await _context.Users.Where(u => u.Email == decodedEmail).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
 
         // PUT: api/Users/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

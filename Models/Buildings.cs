@@ -42,4 +42,10 @@ namespace Rocket_REST_API.Models
         public List<Columns> Columns { get; set; }
         public List<Batteries> Batteries { get; set; }
     }
+
+    public class BuildingWithAddressDTO
+    {
+        public long BuildingId { get; set; }
+        public Addresses Address { get; set; }
+    }
 }
