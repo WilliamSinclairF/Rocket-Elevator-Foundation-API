@@ -31,11 +31,7 @@ namespace Rocket_REST_API.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;port=3306;database=app_development;uid=root;password=root", x => x.ServerVersion("8.0.22-mysql"));
-            }
+        
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

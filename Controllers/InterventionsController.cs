@@ -125,14 +125,14 @@ namespace Rocket_REST_API.Controllers
         [HttpPost("portal_intervention")]
         public async Task<ActionResult<CustomerPortalInterventionDTO>> CreateCustomerPortalInvervention(CustomerPortalInterventionDTO customerPortalInterventionsDTO)
         {
-            var user = await _context.Users.Where(u => u.Email == customerPortalInterventionsDTO.CustomerEmail).FirstOrDefaultAsync();
-
-            var customer = await _context.Customers.Where(c => c.UserId == user.Id).FirstOrDefaultAsync();
+            Users user = await _context.Users.Where(u => u.Email == customerPortalInterventionsDTO.CustomerEmail).SingleAsync();
 
             if (user == null)
             {
                 return Unauthorized();
             }
+
+            Customers customer = await _context.Customers.Where(c => c.UserId == user.Id).SingleAsync();
 
             var intervention = new Interventions
             {
