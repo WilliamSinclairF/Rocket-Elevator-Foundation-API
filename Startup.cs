@@ -30,7 +30,12 @@ namespace Rocket_REST_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            services.AddCors(o => o.AddPolicy("aVeryLaxPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
             services.AddDbContext<App>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
@@ -39,6 +44,8 @@ namespace Rocket_REST_API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("aVeryLaxPolicy");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
