@@ -25,13 +25,10 @@ namespace Rocket_REST_API.Models
         public DateTime UpdatedAt { get; set; }
         public long? BuildingDetailId { get; set; }
         public long? AddressId { get; set; }
-
         public virtual Employees AdminContact { get; set; }
         public virtual Employees TechnicalContact { get; set; }
         public virtual ICollection<Addresses> Addresses { get; set; }
         public virtual ICollection<BuildingDetails> BuildingDetails { get; set; }
-
-
     }
 
     public class BuildingDTO
@@ -47,5 +44,14 @@ namespace Rocket_REST_API.Models
     {
         public long BuildingId { get; set; }
         public Addresses Address { get; set; }
+    }
+
+    public class BuildingAddressUpdateDTO
+    {
+        public long Id { get; set; }
+        public string NumberAndStreet { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string PostalCode { get; set; }
     }
 }

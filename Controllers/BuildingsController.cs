@@ -89,6 +89,60 @@ namespace Rocket_REST_API.Controllers
             return buildings;
         }
 
+        // PUT: api/Buildings/address/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("address/{id}")]
+        public async Task<IActionResult> UpdateBuildingAddress(long id, BuildingAddressUpdateDTO buildingAddressUpdateDTO)
+        {
+            if (id != buildingAddressUpdateDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            var buildingAddress = await _context.Addresses.Where(a => a.BuildingId == buildingAddressUpdateDTO.Id).SingleOrDefaultAsync();
+            if (buildingAddress == null)
+            {
+                return NotFound();
+            }
+
+            if (buildingAddressUpdateDTO.NumberAndStreet != null)
+            {
+                buildingAddress.NumberAndStreet = buildingAddressUpdateDTO.NumberAndStreet;
+            }
+
+            if (buildingAddressUpdateDTO.City != null)
+            {
+                buildingAddress.City = buildingAddressUpdateDTO.City;
+            }
+            if (buildingAddressUpdateDTO.State != null)
+            {
+                buildingAddress.State = buildingAddressUpdateDTO.State;
+            }
+            if (buildingAddressUpdateDTO.PostalCode != null)
+            {
+                buildingAddress.PostalCode = buildingAddressUpdateDTO.PostalCode;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BuildingsExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // PUT: api/Buildings/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

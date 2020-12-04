@@ -58,18 +58,31 @@ namespace Rocket_REST_API.Controllers
         }
 
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsers(long id, Users users)
+        // PUT: api/users/update
+        [HttpPut("update/{email}")]
+        public async Task<IActionResult> UpdateUserInfo(string email, UserDTO userDTO)
         {
-            if (id != users.Id)
+            var decodedEmail = HttpUtility.UrlDecode(email);
+
+            var user = await _context.Users.Where(u => u.Email == decodedEmail).SingleOrDefaultAsync();
+
+            if (user == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(users).State = EntityState.Modified;
+            if (userDTO.FirstName != null)
+            {
+                user.FirstName = userDTO.FirstName;
+            }
+            if (userDTO.LastName != null)
+            {
+                user.LastName = userDTO.LastName;
+            }
+            if (userDTO.Title != null)
+            {
+                user.Title = userDTO.Title;
+            }
 
             try
             {
@@ -77,7 +90,7 @@ namespace Rocket_REST_API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsersExists(id))
+                if (!UsersExists(user.Id))
                 {
                     return NotFound();
                 }
@@ -87,7 +100,7 @@ namespace Rocket_REST_API.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(userDTO);
         }
 
         // POST: api/Users

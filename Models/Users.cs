@@ -21,4 +21,12 @@ namespace Rocket_REST_API.Models
         public bool? IsUser { get; set; }
         public string Phone { get; set; }
     }
+
+    public class UserDTO
+    {
+        public string Email { get; set; }
+        public string Title { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
 }

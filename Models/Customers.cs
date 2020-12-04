@@ -26,4 +26,16 @@ namespace Rocket_REST_API.Models
 
         public virtual ICollection<Addresses> Addresses { get; set; }
     }
+
+    public class CustomerDTO
+    {
+        public string CompanyName { get; set; }
+        public string CompanyContactFullName { get; set; }
+        public string CompanyContactPhone { get; set; }
+        public string CompanyContactEmail { get; set; }
+        public string CompanyDescription { get; set; }
+        public string TechnicalAuthorityFullName { get; set; }
+        public string TechnicalAuthorityPhoneNumber { get; set; }
+        public string TechnicalManagerEmailService { get; set; }
+    }
 }

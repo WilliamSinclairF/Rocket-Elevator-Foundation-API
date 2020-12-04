@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,78 @@ namespace Rocket_REST_API.Controllers
             }
 
             return customers;
+        }
+
+        [HttpPut("update/{email}")]
+        public async Task<IActionResult> UpdateCustomerInfo(string email, CustomerDTO customerDTO)
+        {
+            var decodedEmail = HttpUtility.UrlDecode(email);
+
+            var user = await _context.Users.Where(u => u.Email == decodedEmail).SingleOrDefaultAsync();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Customers.Where(c => c.UserId == user.Id).SingleOrDefaultAsync();
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            if (customerDTO.CompanyName != null)
+            {
+                customer.CompanyName = customerDTO.CompanyName;
+            }
+
+            if (customerDTO.CompanyContactFullName != null)
+            {
+                customer.CompanyContactFullName = customerDTO.CompanyContactFullName;
+            }
+            if (customerDTO.CompanyContactPhone != null)
+            {
+                customer.CompanyContactPhone = customerDTO.CompanyContactPhone;
+            }
+            if (customerDTO.CompanyContactEmail != null)
+            {
+                customer.CompanyContactEmail = customerDTO.CompanyContactEmail;
+            }
+            if (customerDTO.CompanyDescription != null)
+            {
+                customer.CompanyDescription = customerDTO.CompanyDescription;
+            }
+            if (customerDTO.TechnicalAuthorityFullName != null)
+            {
+                customer.TechnicalAuthorityFullName = customerDTO.TechnicalAuthorityFullName;
+            }
+            if (customerDTO.TechnicalAuthorityPhoneNumber != null)
+            {
+                customer.TechnicalAuthorityPhoneNumber = customerDTO.TechnicalAuthorityPhoneNumber;
+            }
+            if (customerDTO.TechnicalManagerEmailService != null)
+            {
+                customer.TechnicalManagerEmailService = customerDTO.TechnicalManagerEmailService;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CustomersExists(customer.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         // PUT: api/Customers/5
