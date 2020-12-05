@@ -138,15 +138,32 @@ namespace Rocket_REST_API.Controllers
             {
                 CustomerId = (int)customer.Id,
                 AuthorId = (int)customer.Id,
-                BuildingId = customerPortalInterventionsDTO.BuildingId,
-                BatteryId = customerPortalInterventionsDTO.BatteryId,
-                ColumnId = customerPortalInterventionsDTO.ColumnId,
-                ElevatorId = customerPortalInterventionsDTO.ElevatorId,
-                Report = customerPortalInterventionsDTO.Report,
+                BuildingId = (int)customerPortalInterventionsDTO.BuildingId,
                 CreatedAt = DateTime.UtcNow,
                 EmployeeId = 1377,
                 Status = "Pending"
             };
+
+
+            if (customerPortalInterventionsDTO.BatteryId != null)
+            {
+                intervention.BatteryId = (int)customerPortalInterventionsDTO.BatteryId;
+            }
+            if (customerPortalInterventionsDTO.ColumnId != null)
+            {
+                intervention.ColumnId = (int)customerPortalInterventionsDTO.ColumnId;
+            }
+            if (customerPortalInterventionsDTO.ElevatorId != null)
+            {
+                intervention.ElevatorId = (int)customerPortalInterventionsDTO.ElevatorId;
+            }
+            if (customerPortalInterventionsDTO.Report != null)
+            {
+                intervention.Report = customerPortalInterventionsDTO.Report;
+            }
+
+            intervention.CustomerId = (int)customer.Id;
+            intervention.AuthorId = (int)customer.Id;
 
             _context.Interventions.Add(intervention);
             await _context.SaveChangesAsync();
