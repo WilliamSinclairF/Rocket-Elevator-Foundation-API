@@ -38,7 +38,7 @@ namespace Rocket_REST_API
         public int? BatteryId { get; set; }
         public int? ColumnId { get; set; }
         public int? ElevatorId { get; set; }
-        public string? Report { get; set; }
+        public string Report { get; set; }
 
 
     }

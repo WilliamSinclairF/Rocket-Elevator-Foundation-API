@@ -111,7 +111,7 @@ namespace Rocket_REST_API.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(customerDTO);
         }
 
         // PUT: api/Customers/5
